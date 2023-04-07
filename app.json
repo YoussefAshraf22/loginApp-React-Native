@@ -2,10 +2,14 @@
   "expo": {
     "name": "Auth",
     "slug": "Auth",
+    "plugins": [
+      "@react-native-google-signin/google-signin"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "com.misscoding.authsessiongoogle",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -15,16 +19,29 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "googleServicesFile": "./google-services.json",
+      "bundleIdentifier": "com.misscoding.authsessiongoogle"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
+      "package": "com.misscoding.authsessiongoogle",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "71ab3c9e-d369-4c13-aa96-6f2f38c467f5"
+      },
+      "plugins": [
+        "@react-native-google-signin/google-signin"
+      ]
     }
   }
 }
