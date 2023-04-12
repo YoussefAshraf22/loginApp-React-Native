@@ -39,7 +39,8 @@ const LoginScreen = ({ navigation }) => {
         console.log('DONE!');
         window.alert('Wellcome Back ☺');
         const user = userCredential.user;
-        navigation.navigate('Profile');
+        // navigation.navigate('Profile');
+        navigation.navigate('ResturantScreen');
         // ...
       })
       .catch((error) => {

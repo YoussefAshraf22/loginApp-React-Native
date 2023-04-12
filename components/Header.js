@@ -1,13 +1,19 @@
 //login screen and the user registration scheme
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import React from 'react';
+import { Colors, parameters } from '../global/styles';
 
-const Header = (props) => {
-  return (
-    <View style={{marginLeft:15}}>
-      <Text style={{fontWeight:'bold',fontSize:28}}>{props.name}</Text>
-    </View>
-  )
-}
+const Header = ({ navigation }) => {
+  return <View style={styles.header}></View>;
+};
 
-export default Header
+export default Header;
+
+const styles = StyleSheet.create({
+  header: {
+    
+    flexDirection: 'row',
+    backgroundColor: Colors.buttons,
+    height: parameters.headerHeight,
+  },
+});

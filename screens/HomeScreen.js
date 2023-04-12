@@ -10,11 +10,15 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
+import ResturantHeader from '../components/ResturantHeader';
+import Header from '../components/Header';
 
 const HomeScreen = ({ navigation }) => {
   const { height } = useWindowDimensions();
   return (
     <View style={styles.container}>
+      <Header/>
+
       <Text style={styles.title}>Welcome To My Authentication App ♥ </Text>
       <Image
         source={require('../assets/login.png')}
@@ -32,12 +36,16 @@ const HomeScreen = ({ navigation }) => {
 };
 export default HomeScreen;
 const styles = StyleSheet.create({
+  head: { flex: 1 },
   container: {
     flex: 1,
     backgroundColor: '##fff',
     alignItems: 'center',
     justifyContent: 'center',
     resizeMode: 'cover',
+  },
+  head: {
+    flex: 1,
   },
   title: {
     fontSize: 24,
