@@ -16,6 +16,7 @@ import SignupScreen from './SignupScreen';
 import ForgetPass from './ForgetPass';
 import auth from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import ClientTab from '../navigation/ClientTab';
 
 //google auth
 import 'expo-dev-client';
@@ -37,10 +38,11 @@ const LoginScreen = ({ navigation }) => {
       .then((userCredential) => {
         // Signed in
         console.log('DONE!');
-        window.alert('Wellcome Back ☺');
+        // window.alert('Wellcome Back ☺');
         const user = userCredential.user;
         // navigation.navigate('Profile');
-        navigation.navigate('ResturantScreen');
+        navigation.navigate('RootClientTab');
+        // navigation.navigate('ResturantScreen');
         // ...
       })
       .catch((error) => {

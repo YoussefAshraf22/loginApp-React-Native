@@ -11,27 +11,33 @@ import SignupScreen from './screens/SignupScreen';
 import ForgetPass from './screens/ForgetPass';
 import Profile from './screens/Profile';
 import ResturantScreen from './screens/ResturantScreen';
+import { View } from 'react-native-web';
+import RootNavigator from './navigation/rootNavigation';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-        initialRouteName={'HomeScreen'}
-      >
-        {/* <Stack.Screen name='HomeScreen'component={HomeScreen}/>
-        <Stack.Screen name='LoginScreen'component={LoginScreen}/>
-        <Stack.Screen name='SignupScreen'component={SignupScreen}/>
-        <Stack.Screen name='ForgetPass'component={ForgetPass}/>
-        <Stack.Screen name='Profile'component={Profile}/> */}
+    <View style={{flex:1}}>
+      <RootNavigator/>
+    </View>
+
+    // <NavigationContainer>
+    //   <Stack.Navigator
+    //     screenOptions={{ headerShown: false }}
+    //     initialRouteName={'HomeScreen'}
+    //   >
+    //    {/* <Stack.Screen name='HomeScreen'component={HomeScreen}/> */}
+    //     <Stack.Screen name='LoginScreen'component={LoginScreen}/>
+    //     <Stack.Screen name='SignupScreen'component={SignupScreen}/>
+    //     <Stack.Screen name='ForgetPass'component={ForgetPass}/>
+    //     <Stack.Screen name='Profile'component={Profile}/> 
         
-        <Stack.Screen
-          name='ResturantScreen'
-          component={ResturantScreen}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    //     <Stack.Screen
+    //       name='ResturantScreen'
+    //       component={ResturantScreen}
+    //     />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
   );
 }

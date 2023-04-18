@@ -7,7 +7,7 @@ export default function Search(){
 
         <View style={{flex:1 ,alignSelf:'center',justifyContent:'center'}}>
             <Text>
-                MyAccount
+                Search Screen
             </Text>
         </View>
     );

@@ -7,7 +7,7 @@ export default function MyOrder(){
 
         <View style={{flex:1 ,alignItems:'center',justifyContent:'center'}}>
             <Text>
-                MyAccount
+                My Orders
             </Text>
         </View>
     );
