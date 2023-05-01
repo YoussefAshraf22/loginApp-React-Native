@@ -9,11 +9,12 @@ import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
 import SignupScreen from '../screens/SignupScreen';
 import RootClientTab from './ClientTab';
+import MapScreen from '../screens/MapScreen';
 const Auth = createStackNavigator();
 export default function AuthStack() {
   return (
     <Auth.Navigator>
-      <Auth.Screen
+      {/* <Auth.Screen
         name='HomeScreen'
         component={HomeScreen}
         options={{
@@ -36,12 +37,28 @@ export default function AuthStack() {
           headerShown: false,
           ...TransitionPresets.RevealFromBottomAndroid,
         }}
-      />
+      /> */}
       <Auth.Screen
         name='RootClientTab'
         component={RootClientTab}
         options={{
           headerShown: false,
+          ...TransitionPresets.BottomSheetAndroid,
+        }}
+      />
+      <Auth.Screen
+        name='ResturantScreen'
+        component={ResturantScreen}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.BottomSheetAndroid,
+        }}
+      />
+      <Auth.Screen
+        name='MapScreen'
+        component={MapScreen}
+        options={{
+          headerShown: true,
           ...TransitionPresets.BottomSheetAndroid,
         }}
       />

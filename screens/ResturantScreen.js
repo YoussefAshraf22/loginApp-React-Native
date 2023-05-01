@@ -16,6 +16,7 @@ import { Colors, parameters } from '../global/styles';
 import { filterData, resturantData, resturantData1 } from '../global/data';
 import FoodCard from './FoodCard';
 import CountDown from 'react-native-countdown-component';
+import 'react-native-gesture-handler';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const ResturantScreen = ({ navigation }) => {
@@ -23,7 +24,7 @@ const ResturantScreen = ({ navigation }) => {
   const [indexCheck, setIndexCheck] = useState('0');
   return (
     <View style={styles.container}>
-      <ResturantHeader />
+      <ResturantHeader navigation={navigation}/>
       <ScrollView
         //make the bage scrolled
         stickyHeaderIndices={[1]}
@@ -257,6 +258,23 @@ const ResturantScreen = ({ navigation }) => {
           ))}
         </View>
       </ScrollView>
+      {/* //MapScreen */}
+      { delivery &&
+        <View style={styles.floatButton}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('MapScreen');
+          }}
+        >
+          <Icon
+            name='place'
+            type='material'
+            size={32}
+            color={Colors.buttons}
+          />
+          <Text style={{ color: Colors.grey2 }}>Map</Text>
+        </TouchableOpacity>
+      </View>}
     </View>
   );
 };
@@ -306,7 +324,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     paddingLeft: 20,
-    
   },
   headerTextView: {
     backgroundColor: Colors.grey5,
@@ -340,5 +357,16 @@ const styles = StyleSheet.create({
   smallCardTextSelected: {
     fontWeight: 'bold',
     colo: Colors.cardbackground,
+  },
+  floatButton: {
+    position: 'absolute',
+    bottom: 10,
+    right: 15,
+    backgroundColor: 'white',
+    elevation: 10,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    alignItems: 'center',
   },
 });

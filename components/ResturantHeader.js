@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Icon ,withBadge } from 'react-native-elements';
+import { Icon, withBadge } from 'react-native-elements';
 import { Colors, parameters } from '../global/styles';
 const ResturantHeader = ({ navigation }) => {
   //icon cart connected with firebase
@@ -13,10 +13,11 @@ const ResturantHeader = ({ navigation }) => {
           name='menu'
           color={Colors.cardbackground}
           size={32}
+          onPress={() => {}}
         />
       </View>
       <View style={styles.content}>
-        <Text style={styles.text}>EAT IT APP</Text>
+        <Text style={styles.text}>Just Eat ♥</Text>
       </View>
       <View style={styles.content}>
         <BadgeIcon
