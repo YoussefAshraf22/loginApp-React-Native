@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Icon, withBadge } from 'react-native-elements';
 import { Colors, parameters } from '../global/styles';
+import MyOrderScreen from '../screens/MyOrderScreen'
 const ResturantHeader = ({ navigation }) => {
   //icon cart connected with firebase
   const BadgeIcon = withBadge(0)(Icon);
@@ -17,14 +18,16 @@ const ResturantHeader = ({ navigation }) => {
         />
       </View>
       <View style={styles.content}>
-        <Text style={styles.text}>Just Eat ♥</Text>
+        <Text style={styles.text}>Just Eat</Text>
       </View>
-      <View style={styles.content}>
+      <View  style={styles.content} >
         <BadgeIcon
+          onClick={(MyOrderScreen)}
           type='material-community'
           name='cart'
           color={Colors.cardbackground}
           size={32}
+          
         />
       </View>
     </View>

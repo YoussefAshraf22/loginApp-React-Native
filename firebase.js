@@ -1,23 +1,44 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-// import { GoogleAuthProvider } from 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { GoogleAuthProvider, getAuth,signInWithPopup,FacebookAuthProvider} from "firebase/auth";
+ 
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyCfyfjA9t8mHU1MwUtj9rtbSbcG4uRyChA',
-  authDomain: 'test-b3f67.firebaseapp.com',
-  projectId: 'test-b3f67',
-  storageBucket: 'test-b3f67.appspot.com',
-  messagingSenderId: '932276523867',
-  appId: '1:932276523867:web:efad9590d1c632d284007e',
+  apiKey: "AIzaSyA3B9IY13slXmHPevFNKeECO5mdmAUonC4",
+  authDomain: "projecttest-2eb97.firebaseapp.com",
+  projectId: "projecttest-2eb97",
+  storageBucket: "projecttest-2eb97.appspot.com",
+  messagingSenderId: "303465273517",
+  appId: "1:303465273517:web:e2ce7422518590a7484e24"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+export const auth = getAuth(app);
+export default auth ;
 
-export default auth;
+export const provider=new GoogleAuthProvider(app);
+export const provider2=new FacebookAuthProvider(app);
+
+// export const signInWithGoogle=()=>{
+//   signInWithPopup (auth,provider)
+//   .then((result)=>{
+//     const name=result.user.displayName;
+//     const email=result.user.email;
+//     const profilePic=result.user.photoURL;
+    
+//     navigation.navigate("Register");
+//     localStorage.setItem("name",name);
+//     localStorage.setItem("email",email);
+//     localStorage.setItem("profilePic",profilePic);
+
+    
+//   })  
+//   .cath((error)=>{
+//       console.log(error);
+//   });
+// }
