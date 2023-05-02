@@ -22,7 +22,7 @@ const ResturantHeader = ({ navigation }) => {
       </View>
       <View  style={styles.content} >
         <BadgeIcon
-          onClick={(MyOrderScreen)}
+         
           type='material-community'
           name='cart'
           color={Colors.cardbackground}
