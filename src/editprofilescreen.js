@@ -1,7 +1,15 @@
 import React from "react";
 import { useState } from "react";
-import {StyleSheet,View,Image,useWindowDimensions,ImageBackground,style,SafeAreaView,TouchableOpacity,} from "react-native";
-import {Avatar,Title,caption,Text,TouchableRipple,Caption,TextInput,useTheme,} from "react-native-paper";
+import {StyleSheet,View,Image,useWindowDimensions,ImageBackground,style,SafeAreaView,TouchableOpacity, Platform,} from "react-native";
+import {
+  Avatar,
+  Title,
+  Caption,
+  Text,
+  TouchableRipple,
+  TextInput,
+  useTheme,
+} from "react-native-paper";
 import Icon1 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon2 from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -16,10 +24,34 @@ import * as ImagePicker from "expo-image-picker";
 import Header from "./views/components/Header";
 import { BackgroundImage } from 'react-native-elements/dist/config';
 import b from '../img/b.jpg'
-
+import { Button } from "react-native";
 // import { fontConfig } from "react-native-paper/lib/typescript/src/styles/fonts";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 const editprofilescreen = ({ navigation }) => {
+
+  const [date,setDate]=useState(new Date());
+  const [mode,setMode]=useState("date");
+  const [show,setShow]=useState(false);
+  const [text,setText]=useState("Empty");
+
+  const onChange=(event,selectedDate)=>{
+    const currentUser=selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentUser);
+
+    let tempDate =new Date(currentUser);
+    let fDate=tempDate.getDate()+"/"+ (tempDate.getMonth()+ 1)+ '/' + tempDate.getFullYear();
+    setText(fDate);
+
+    console.log(fDate);
+  }
+
+  const showMode=(currentUser)=>{
+    setShow(true);
+    setMode(currentUser);
+  }
+  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -28,6 +60,7 @@ const editprofilescreen = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
   const [viewMode, setViewMode] = useState(true);
   const { colors } = useTheme();
+  
   
   const handleSignOut = () => {
     signOut(auth)
@@ -152,11 +185,13 @@ const editprofilescreen = ({ navigation }) => {
             </TouchableOpacity>
             <Text style={{ marginRight: 10, fontSize: 24, fontWeight: "bold" }}>
               {email}
+          <h3 style={{ color:"darkblue", fontWeight: "bold" }}>{auth.currentUser.email} </h3>
             </Text>
           </View>
           <View style={styles.action}>
-          <Text  style={[ { color: colors.text,size:5 }]} >First Name  </Text><br/> 
-            <FontAwesome name="user-o" color={colors.text} size={18} />
+          
+         <Text  style={[ { color: colors.text,size:10 }]} >First Name  </Text>
+            <FontAwesome name="user-o" color={colors.text} size={20} />
             <Text style={[styles.textInput, { color: colors.text }]}
 
               // onChangeText={setFirstName}
@@ -165,8 +200,8 @@ const editprofilescreen = ({ navigation }) => {
             </Text>
           </View>
           <View style={styles.action}>
-            <Text  style={[, { color: colors.text ,size:5}]} >last Name  </Text><br/> 
-            <FontAwesome name="user-o" color={colors.text} size={18} />
+            <Text  style={[, { color: colors.text ,size:10}]} >last Name  </Text><br/> 
+            <FontAwesome name="user-o" color={colors.text} size={20} />
             <Text
               style={[styles.textInput, { color: colors.text }]}
 
@@ -176,16 +211,16 @@ const editprofilescreen = ({ navigation }) => {
             </Text>
           </View>
           <View style={styles.action}>
-          <Text  style={[ { color: colors.text,size:5 }]} >Phone Number  </Text><br/> 
-            <Feather name="smartphone" color={colors.text} size={18} />
+          <Text  style={[ { color: colors.text,size:10}]} >Phone Number  </Text><br/> 
+            <Feather name="smartphone" color={colors.text} size={20} />
             <Text placeholderTextColor="#666666" style={[styles.textInput, { color: colors.text }]} // onChangeText={setPhone} 
             >
               {phone}
             </Text>
           </View>
           <View style={styles.action}>
-          <Text  style={[ { color: colors.text,size:5 }]} >Birth Date  </Text><br/> 
-            <Icon2 name="date-range" color={colors.text} size={18} />
+          <Text  style={[ { color: colors.text,size:10 }]} >Birth Date  </Text><br/> 
+            <Icon2 name="date-range" color={colors.text} size={20} />
             <Text placeholderTextColor="#666666" style={[styles.textInput, { color: colors.text }]}
               // onChangeText={setBirthDay}
             >
@@ -272,6 +307,7 @@ const editprofilescreen = ({ navigation }) => {
               style={[styles.textInput, { color: colors.text }]}
               value={lastName}
               onChangeText={setLastName}
+              
             />
           </View>
           <View style={styles.action}>
@@ -295,7 +331,21 @@ const editprofilescreen = ({ navigation }) => {
               style={[styles.textInput, { color: colors.text }]}
               value={birthday}
               onChangeText={setBirthDay}
+              type="datetime-local"
             />
+            <input type="date"/>
+            <Button title="Date" onPress={()=>showMode('date')}/>
+            {show&&(
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display='default'
+                onChange={onChange}
+              />
+            )}
+            {/* <input type="datetime-local">Date</input> */}
           </View>
           <TouchableOpacity onPress={handleSubmit} style={styles.commandButton}>
             <Text style={styles.panelButtonTitle}>Submit</Text>
@@ -404,5 +454,6 @@ color: "darkblue",
 fontSize:22
   },
 });
+
 export default editprofilescreen;
-// {/* <Text></Text> */}
+
