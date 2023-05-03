@@ -8,7 +8,7 @@ import MyOrderScreen from '../screens/MyOrderScreen';
 import Profile from '../screens/Profile';
 import Home from '../screens/Home';
 import Ionic from 'react-native-vector-icons/Ionicons';
-import ProfileScreen from '../src/ProfileScreen';
+import editprofilescreen from '../src/editprofilescreen';
 import cart from '../screens/cart';
 
 export default function RootClientTab() {
@@ -59,8 +59,9 @@ export default function RootClientTab() {
         options={{ headerShown: false }}
       />
       <ClientTab.Screen
-        name='ProfileScreen'
-        component={ProfileScreen}
+        name='editprofilescreen'
+        component={editprofilescreen}
+        options={{ headerShown: false }}
       />
     </ClientTab.Navigator>
 
