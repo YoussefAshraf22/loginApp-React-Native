@@ -24,8 +24,6 @@
     "app.": "^0.0.6",
     "build": "^0.1.4",
     "configure": "^0.0.1",
-    "creat": "^1.0.3",
-    "create-react-app": "^5.0.1",
     "eas": "^0.1.0",
     "expo": "^48.0.9",
     "expo-auth-session": "~4.0.3",
