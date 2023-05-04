@@ -21,7 +21,7 @@ export default function RootClientTab() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, size, color }) => {
           let iconName;
-          if (route.name === 'ResturantScreen') {
+          if (route.name === 'home') {
             iconName = focused ? 'ios-home' : 'ios-home-outline';
             color = focused ? 'orange' : 'gray';
           } else if (route.name === 'SearchScreen') {
@@ -45,8 +45,8 @@ export default function RootClientTab() {
       })}
     >
       <ClientTab.Screen
-        name='ResturantScreen'
-        component={ResturantScreen}
+        name='home'
+        component={Home}
         options={{ headerShown: false }}
       />
       <ClientTab.Screen
@@ -59,7 +59,7 @@ export default function RootClientTab() {
         options={{ headerShown: false }}
       />
       <ClientTab.Screen
-        name='editprofilescreen'
+        name='Profile'
         component={editprofilescreen}
         options={{ headerShown: false }}
       />

@@ -1,141 +1,412 @@
-import React from 'react'
-import { View, ScrollView, TouchableOpacity, Image ,Text,TouchableRipple,Icon, SafeAreaView, StyleSheet} from "react-native"
-  const Home = () => {
-  return (
-    <View>
-        <ScrollView>
-        <View style={{ padding: 10, width: '100%', backgroundColor: '#000', height: 150 }}>
-          <TouchableOpacity>
-            <Image source={require('../img/Back.png')}
-              style={{ width: 30, height: 30 }}></Image>
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  StatusBar,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  FlatList,
+} from 'react-native';
+import { Categories, COLOURS } from '../database/items';
+import Material from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import ResturantHeader from '../components/ResturantHeader';
 
-          </TouchableOpacity>
-        </View>
-        <View style={{ alignItems: 'center' }}>
-          <Image source={require('../img/r.jpg')} style={{ width: 140, height: 140, borderRadius: 100, marginTop: -70 }}></Image>
-          <Text style={{ fontSize: 40, fontWeight: 'Bold', padding: 10 }}>Mohamed Khaled</Text>
-          <Text style={{ fontSize: 10, fontWeight: 'Bold', color: 'grey' }}>Male , 21</Text>
-        </View>
+const Home = ({ navigation }) => {
+  const [currentSelected, setCurrentSelected] = useState([0]);
 
-        <View style={{
-          alignSelf: 'center',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          backgroundColor: '#fff',
-          width: '90%',
-          padding: 20,
-          paddingBottom: 22,
-          borderRadius: 10,
-          shadowOpasity: 80,
-          elevation: 15,
-          marginTop: 20,
-          marginBottom: 20
-        }}>
-            <Image source={require('../img/order.jpg')} style={{ width: 30, height: 30, borderRadius: 10, marginTop: -5 }}></Image>
-           
-            <Text style={{ fontSize: 15, color: '#818181', fontWeight: 'bold', marginLeft: 5 }}>My Orders</Text>
-        </View>
-
-        <View style={{
-          alignSelf: 'center',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          backgroundColor: '#fff',
-          width: '90%',
-          padding: -25,
-          paddingBottom: 22,
-          borderRadius: 10,
-          shadowOpasity: 80,
-          elevation: 15,
-          marginTop: 10,
-          marginBottom: 20
-        }}>
-            <Image source={require('../img/email.png')} style={{ width: 25, height: 25, borderRadius: 10, marginTop: -2 }}></Image>
-           
-            <Text style={{ fontSize: 15, color: '#818181', fontWeight: 'bold', marginLeft: 5 }}>mokh0453704@gmail.com</Text>
-        </View>
-
-        <View style={{
-          alignSelf: 'center',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          backgroundColor: '#fff',
-          width: '90%',
-          padding: -25,
-          paddingBottom: 22,
-          borderRadius: 10,
-          shadowOpasity: 80,
-          elevation: 15,
-          marginTop: 10,
-          marginBottom: 20
-        }}>
-            <Image source={require('../img/phone.jpg')} style={{ width: 25, height: 25, borderRadius: 10, marginTop: -2 }}></Image>
-           
-            <Text style={{ fontSize: 15, color: '#818181', fontWeight: 'bold', marginLeft: 5 }}>01023816232</Text>
-        </View>
-
-        <TouchableOpacity style={{
-          alignSelf: 'center',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          backgroundColor: '#fff',
-          width: '90%',
-          padding: 20,
-          paddingBottom: 22,
-          borderRadius: 10,
-          shadowOpasity: 80,
-          elevation: 15,
-          marginTop: 20,
-          marginBottom: 40,
-          backgroundColor: '#000'
-        }}>
-          <Text style={{ fontSize: 15, color: '#fff', fontWeight: 'bold', marginLeft: 10 }}>Logout</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={{
-        alignSelf: 'center',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        backgroundColor: '#fff',
-        width: '30%',
-        padding: 20,
-        paddingBottom: 22,
-        borderRadius: 10,
-        shadowOpasity: 80,
-        elevation: 15,
-        marginTop: 20,
-        marginBottom: 40,
-        backgroundColor: '##dde3f4',
-        color: '#777777',
-        marginLeft: 20,
-        fontWeight: '600',
-        fontSize: 16,
-        lineHeight: 26}}>
-          <Image source={require('../img/set.png')} style={{ width: 25, height: 25, borderRadius: 10, marginTop: -2 }}></Image>
-          <Text style={{alignSelf: 'center',fontSize: 15, color: '#818181', fontWeight: 'bold', marginLeft: 10}}>Settings</Text>
-          </TouchableOpacity>
-
-        </ScrollView>
-    </View>
-
-  )
-const styles = StyleSheet.create({
-    menuWrapper: {
-        marginTop: 10,
-      },
-      menuItem: {
-        flexDirection: 'row',
-        paddingVertical: 15,
-        paddingHorizontal: 30,
-      },
-      menuItemText: {
-        color: '#777777',
-        marginLeft: 20,
-        fontWeight: '600',
-        fontSize: 16,
-        lineHeight: 26,
-      },
-      })
-}
   
-  export default Home
+
+  const renderCategories = ({ item, index }) => {
+    return (
+      <TouchableOpacity
+        // activeOpacity={0.9}
+        onPress={() => setCurrentSelected(index)}
+      >
+        {/* catigory block */}
+        <View
+          style={{
+            width: 120,
+            height: 180,
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
+            backgroundColor:
+              currentSelected == index ? COLOURS.accent : COLOURS.white,
+            borderRadius: 20,
+            margin: 10,
+            elevation: 5,
+          }}
+        >
+          {/* catigory image  */}
+          <View style={{ width: 60, height: 60 }}>
+            <Image
+              source={item.image}
+              style={{
+                width: '100%',
+                height: '100%',
+                resizeMode: 'center',
+              }}
+            />
+          </View>
+          {/* catigory title  */}
+          <Text
+            style={{
+              fontSize: 16,
+              color: COLOURS.black,
+              fontWeight: '600',
+            }}
+          >
+            {item.name}
+          </Text>
+          {/* right button  */}
+          <View
+            style={{
+              width: 30,
+              height: 30,
+              borderRadius: 100,
+              backgroundColor:
+                currentSelected == index ? COLOURS.white : COLOURS.accentRed,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <FontAwesome
+              name='angle-right'
+              style={{
+                fontSize: 12,
+                color: currentSelected == index ? COLOURS.black : COLOURS.white,
+              }}
+            />
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+  // popular items
+  const renderItems = (data, index) => {
+    return (
+      <TouchableOpacity
+        key={index}
+        activeOpacity={0.9}
+        style={{
+          width: '100%',
+          height: 180,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        onPress={() =>
+          navigation.push('details', {
+            name: data.name,
+            price: data.price,
+            image: data.image,
+            size: data.size,
+            crust: data.crust,
+            delivery: data.delivery,
+            ingredients: data.ingredients,
+            isTopOfTheWeek: data.isTopOfTheWeek,
+            navigation: navigation,
+          })
+        }
+      >
+        {/* item layout  */}
+        <View
+          style={{
+            width: '90%',
+            height: 160,
+            backgroundColor: COLOURS.white,
+            borderRadius: 20,
+            elevation: 4,
+            position: 'relative',
+            padding: 15,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <View style={{ marginBottom: 50 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                display: data.isTopOfTheWeek ? 'flex' : 'none',
+              }}
+            >
+              <FontAwesome
+                name='crown'
+                style={{
+                  fontSize: 10,
+                  color: COLOURS.accent,
+                }}
+              />
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: COLOURS.black,
+                  opacity: 0.8,
+                  marginLeft: 5,
+                }}
+              >
+                top of the week
+              </Text>
+            </View>
+
+            <Text
+              style={{
+                fontSize: 22,
+                color: COLOURS.black,
+                fontWeight: 'bold',
+                paddingTop: 10,
+              }}
+            >
+              {data.name}
+            </Text>
+            <Text
+              style={{
+                fontSize: 12,
+                color: COLOURS.black,
+                opacity: 0.5,
+              }}
+            >
+              {data.weight}
+            </Text>
+          </View>
+          <View style={{ width: 150, height: 150, marginRight: -45 }}>
+            <Image
+              source={data.image}
+              style={{
+                width: '100%',
+                height: '100%',
+                resizeMode: 'contain',
+              }}
+            />
+          </View>
+          {/* plus button  */}
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <View
+              style={{
+                width: 50,
+                height: 50,
+                backgroundColor: COLOURS.accent,
+                borderTopRightRadius: 20,
+                borderBottomLeftRadius: 20,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Entypo
+                name='plus'
+                style={{ fontSize: 18, color: COLOURS.black }}
+              />
+            </View>
+            {/* star rate  */}
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginLeft: 20,
+              }}
+            >
+              <AntDesign
+                name='star'
+                style={{ fontSize: 12, color: COLOURS.black, paddingRight: 5 }}
+              />
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: COLOURS.black,
+                  fontWeight: 'bold',
+                }}
+              >
+                {data.rating}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  // catigories
+  return (
+    <View
+      style={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: COLOURS.white,
+      }}
+    >
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: COLOURS.white,
+            position: 'relative',
+          }}
+        >
+          {/* <StatusBar
+            backgroundColor={COLOURS.white}
+            barStyle='dark-content'
+          /> */}
+          {/* <Image
+            source={require('../database/images/background.png')}
+            style={{ position: 'absolute', top: 0, left: -100 }}
+          /> */}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              padding: 0,
+            }}
+          >
+            {/* profile img  */}
+            {/* <TouchableOpacity
+              style={{
+                width: 40,
+                height: 40,
+              }}
+            >
+              <Image
+                source={require('../database/images/profile.jpg')}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  resizeMode: 'contain',
+                  borderRadius: 500,
+                }}
+              />
+            </TouchableOpacity> */}
+
+            {/* drawer options  */}
+            {/* <TouchableOpacity>
+              <Material
+                name='segment'
+                style={{
+                  fontSize: 28,
+                  color: COLOURS.black,
+                }}
+              />
+            </TouchableOpacity> */}
+          </View>
+          <View style={{ flex: 1,marginBottom:20 }}>
+            <ResturantHeader />
+          </View>
+          
+          {/* <View style={{ padding: 20 }}> */}
+            {/* <Text
+              style={{
+                fontSize: 16,
+                color: COLOURS.black,
+                opacity: 0.5,
+                fontWeight: '400',
+              }}
+            >
+              Food
+            </Text> */}
+            {/* <Text
+              style={{
+                fontSize: 40,
+                color: COLOURS.black,
+                fontWeight: '600',
+                letterSpacing: 2,
+              }}
+            >
+              Delivery
+            </Text>
+          </View> */}
+          {/* search  */}
+          {/* <View
+            style={{
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <Ionicons
+              name='search'
+              style={{ fontSize: 20, color: COLOURS.black, opacity: 0.8 }}
+            />
+            <TextInput
+              placeholder='Search...'
+              style={{
+                color: COLOURS.black,
+                fontSize: 16,
+                paddingVertical: 5,
+                borderBottomWidth: 1,
+                borderBottomColor: COLOURS.black + 20,
+                width: '90%',
+                marginLeft: 10,
+                letterSpacing: 1,
+              }}
+            />
+          </View> */}
+          <Text
+            style={{
+              paddingTop: 20,
+              paddingHorizontal: 20,
+              fontSize: 18,
+              fontWeight: '700',
+              color: COLOURS.black,
+              letterSpacing: 1,
+            }}
+          >
+            Categories
+          </Text>
+          <FlatList
+            horizontal={true}
+            data={Categories}
+            renderItem={renderCategories}
+            showsHorizontalScrollIndicator={false}
+          />
+          <Text
+            style={{
+              paddingTop: 20,
+              paddingHorizontal: 20,
+              fontSize: 18,
+              fontWeight: '700',
+              color: COLOURS.black,
+            }}
+          >
+            Popular
+          </Text>
+          {Categories[currentSelected].items.map(renderItems)}
+          {/* <TouchableOpacity
+            style={{
+              margin: 30,
+              justifyContent: 'center',
+              alignItems: 'center',
+              opacity: 0.5,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                color: COLOURS.black,
+                borderBottomWidth: 1,
+                borderBottomColor: COLOURS.black,
+              }}
+            >
+              Load more
+            </Text>
+            
+          </TouchableOpacity> */}
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
+
+export default Home;
