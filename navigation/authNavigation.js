@@ -43,7 +43,7 @@ export default function AuthStack() {
           ...TransitionPresets.RevealFromBottomAndroid,
         }}
       /> */}
-      <Auth.Screen
+      {/* <Auth.Screen
         name='WelcomeScreen'
         component={WelcomeScreen}
         options={{
@@ -58,7 +58,7 @@ export default function AuthStack() {
           headerShown: false,
           ...TransitionPresets.BottomSheetAndroid,
         }}
-      />
+      /> */}
 
       <Auth.Screen
         name='RootClientTab'
