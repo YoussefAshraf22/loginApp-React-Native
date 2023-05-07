@@ -97,9 +97,7 @@ const Details = ({ route, navigation }) => {
             paddingRight: 5,
             paddingBottom: 8,
           }}
-        >
-          
-        </Text>
+        ></Text>
         <Text
           style={{
             fontSize: 38,
@@ -226,7 +224,7 @@ const Details = ({ route, navigation }) => {
             >
               <Image
                 source={data}
-                style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+                style={{ width: '100%', height: '80%', resizeMode: 'contain' }}
               />
             </View>
           );
@@ -240,6 +238,7 @@ const Details = ({ route, navigation }) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}
+        onPress={() => navigation.navigate('cart')}
       >
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -262,12 +261,14 @@ const Details = ({ route, navigation }) => {
               letterSpacing: 1,
               marginRight: 10,
             }}
+            onPress={() => navigation.navigate('cart')}
           >
             Place on Order
           </Text>
           <Entypo
             name='chevron-right'
             style={{ fontSize: 16, color: COLOURS.black }}
+            onPress={() => navigation.navigate('cart')}
           />
         </TouchableOpacity>
       </View>
