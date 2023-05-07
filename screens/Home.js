@@ -8,19 +8,21 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+  Dimensions,
 } from 'react-native';
-import { Categories, COLOURS } from '../database/items';
+import { Categories, COLOURS, featured } from '../database/items';
 import Material from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ResturantHeader from '../components/ResturantHeader';
+import { filterData, resturantData, resturantData1 } from '../global/data';
+import FoodCard from './FoodCard';
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
 const Home = ({ navigation }) => {
   const [currentSelected, setCurrentSelected] = useState([0]);
-
-  
 
   const renderCategories = ({ item, index }) => {
     return (
@@ -139,16 +141,17 @@ const Home = ({ navigation }) => {
               <FontAwesome
                 name='crown'
                 style={{
-                  fontSize: 10,
+                  fontSize: 15,
                   color: COLOURS.accent,
                 }}
               />
               <Text
                 style={{
-                  fontSize: 12,
+                  fontSize: 18,
                   color: COLOURS.black,
                   opacity: 0.8,
                   marginLeft: 5,
+                  marginBottom:5,
                 }}
               >
                 top of the week
@@ -256,108 +259,23 @@ const Home = ({ navigation }) => {
             position: 'relative',
           }}
         >
-          {/* <StatusBar
-            backgroundColor={COLOURS.white}
-            barStyle='dark-content'
-          /> */}
-          {/* <Image
-            source={require('../database/images/background.png')}
-            style={{ position: 'absolute', top: 0, left: -100 }}
-          /> */}
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
               padding: 0,
             }}
-          >
-            {/* profile img  */}
-            {/* <TouchableOpacity
-              style={{
-                width: 40,
-                height: 40,
-              }}
-            >
-              <Image
-                source={require('../database/images/profile.jpg')}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  resizeMode: 'contain',
-                  borderRadius: 500,
-                }}
-              />
-            </TouchableOpacity> */}
+          ></View>
 
-            {/* drawer options  */}
-            {/* <TouchableOpacity>
-              <Material
-                name='segment'
-                style={{
-                  fontSize: 28,
-                  color: COLOURS.black,
-                }}
-              />
-            </TouchableOpacity> */}
-          </View>
-          <View style={{ flex: 1,marginBottom:20 }}>
+          <View style={{ flex: 1, marginBottom: 20 }}>
             <ResturantHeader />
           </View>
-          
-          {/* <View style={{ padding: 20 }}> */}
-            {/* <Text
-              style={{
-                fontSize: 16,
-                color: COLOURS.black,
-                opacity: 0.5,
-                fontWeight: '400',
-              }}
-            >
-              Food
-            </Text> */}
-            {/* <Text
-              style={{
-                fontSize: 40,
-                color: COLOURS.black,
-                fontWeight: '600',
-                letterSpacing: 2,
-              }}
-            >
-              Delivery
-            </Text>
-          </View> */}
-          {/* search  */}
-          {/* <View
-            style={{
-              paddingHorizontal: 20,
-              paddingVertical: 10,
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
-            <Ionicons
-              name='search'
-              style={{ fontSize: 20, color: COLOURS.black, opacity: 0.8 }}
-            />
-            <TextInput
-              placeholder='Search...'
-              style={{
-                color: COLOURS.black,
-                fontSize: 16,
-                paddingVertical: 5,
-                borderBottomWidth: 1,
-                borderBottomColor: COLOURS.black + 20,
-                width: '90%',
-                marginLeft: 10,
-                letterSpacing: 1,
-              }}
-            />
-          </View> */}
+
           <Text
             style={{
               paddingTop: 20,
               paddingHorizontal: 20,
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: '700',
               color: COLOURS.black,
               letterSpacing: 1,
@@ -375,14 +293,38 @@ const Home = ({ navigation }) => {
             style={{
               paddingTop: 20,
               paddingHorizontal: 20,
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: '700',
               color: COLOURS.black,
             }}
           >
-            Popular
+            Popular Items
           </Text>
+          {/* <ScrollView>
+            <View style={{ width: SCREEN_WIDTH, paddingTop: 10 }}>
+              {resturantData.map((item) => (
+                <View
+                  key={item.id}
+                  style={{ paddingBottom: 20 }}
+                >
+                  <FoodCard
+                    screenWidth={SCREEN_WIDTH * 0.95}
+                    images={item.images}
+                    resturantName={item.resturantName}
+                    farAway={item.farAway}
+                    averageReview={item.averageReview}
+                    numberofReview={item.numberofReview}
+                    businessAddress={item.businessAddress}
+                  />
+                  
+                </View>
+              ))}
+            </View>
+          </ScrollView> */}
+
           {Categories[currentSelected].items.map(renderItems)}
+          {/* {featured[currentSelected].items.map(renderItems)} */}
+
           {/* <TouchableOpacity
             style={{
               margin: 30,
