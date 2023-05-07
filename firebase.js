@@ -26,6 +26,17 @@ export const provider=new GoogleAuthProvider(app);
 export const provider2=new FacebookAuthProvider(app);
 const db = getFirestore(app);
 export {app,db,getFirestore ,collection, addDoc ,getDocs ,doc, updateDoc ,deleteDoc};
+
+const user = auth.currentUser;
+if (user !== null) {
+  // The user object has basic properties such as display name, email, etc.
+  const displayName = user.displayName;
+  const email = user.email;
+  const photoURL = user.photoURL;
+  const emailVerified = user.emailVerified;
+  const uid = user.uid;
+}
+
 // export const signInWithGoogle=()=>{
 //   signInWithPopup (auth,provider)
 //   .then((result)=>{
