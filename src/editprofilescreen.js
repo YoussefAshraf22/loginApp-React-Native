@@ -1,16 +1,27 @@
 import React from "react";
 import { useState } from "react";
-import {StyleSheet,View,Image,useWindowDimensions,ImageBackground,style,SafeAreaView,TouchableOpacity, Platform,} from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  useWindowDimensions,
+  ImageBackground,
+  style,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import {
   Avatar,
   Title,
-  Caption,
+  caption,
   Text,
   TouchableRipple,
+  Caption,
   TextInput,
   useTheme,
 } from "react-native-paper";
-import Icon1 from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon1 from "react-native-vector-icons/MaterialCommunityIcons"
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';;
 import Icon2 from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
@@ -19,39 +30,19 @@ import { auth, db } from "../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 // import CustomButton from "../components/customButton";
 import { signOut } from "firebase/auth";
-import img1 from "../assets/OIP.jpg";
+import OIP from "./images/OIP.jpg";
 import * as ImagePicker from "expo-image-picker";
 import Header from "./views/components/Header";
-import { BackgroundImage } from 'react-native-elements/dist/config';
-import b from '../img/b.jpg'
-import { Button } from "react-native";
+import Input from './views/components/Input';
+
+
+// import files from '../assets/filesBase64';
+// import Share from 'react-native-share';
+
+
 // import { fontConfig } from "react-native-paper/lib/typescript/src/styles/fonts";
-import DateTimePicker from "react-native-modal-datetime-picker";
 
 const editprofilescreen = ({ navigation }) => {
-
-  const [date,setDate]=useState(new Date());
-  const [mode,setMode]=useState("date");
-  const [show,setShow]=useState(false);
-  const [text,setText]=useState("Empty");
-
-  const onChange=(event,selectedDate)=>{
-    const currentUser=selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setDate(currentUser);
-
-    let tempDate =new Date(currentUser);
-    let fDate=tempDate.getDate()+"/"+ (tempDate.getMonth()+ 1)+ '/' + tempDate.getFullYear();
-    setText(fDate);
-
-    console.log(fDate);
-  }
-
-  const showMode=(currentUser)=>{
-    setShow(true);
-    setMode(currentUser);
-  }
-  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -60,20 +51,38 @@ const editprofilescreen = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
   const [viewMode, setViewMode] = useState(true);
   const { colors } = useTheme();
-  
-  
+
+  // const myCustomShare = async() => {
+  //   const shareOptions = {
+  //     message: 'Order your next meal from FoodFinder App. I\'ve already ordered more than 10 meals on it.',
+  //     url: files.appLogo,
+  //     // urls: [files.image1, files.image2]
+  //   }
+
+  //   try {
+  //     const ShareResponse = await Share.open(shareOptions);
+  //     console.log(JSON.stringify(ShareResponse));
+  //   } catch(error) {
+  //     console.log('Error => ', error);
+  //   }
+  // };
+
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
         console.log("Done");
         navigation.navigate("WelcomeScreen");
+        
+        const subscription = AppState.addEventListener('change', myHandlerFunction);
+
+// To remove the listener:
+        subscription.remove();
       })
       .catch((error) => {
         // An error happened.
       });
   };
-
   const handleChoosePhoto = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -90,13 +99,11 @@ const editprofilescreen = ({ navigation }) => {
       setPhoto(result.uri);
     }
   };
-
   const handleSubmit = () => {
     setViewMode(true);
     handleUpdate();
     // navigation.navigate("EditProfileScreen");
   };
-
   const handleUpdate = async () => {
     const washingtonRef = doc(db, "usersData", auth.currentUser.uid);
 
@@ -109,13 +116,10 @@ const editprofilescreen = ({ navigation }) => {
       photo: photo,
     });
   };
-
-  
-
-  
-    const getUser = async () => {
+  const getUser = async () => {
     const docRef = doc(db, "usersData", auth.currentUser.uid);
     const docSnap = await getDoc(docRef);
+
     if (docSnap.exists()) {
       // console.log("Document data:", docSnap.data());
       const data = docSnap.data();
@@ -131,22 +135,17 @@ const editprofilescreen = ({ navigation }) => {
       console.log("No such document!");
     }
   };
-
   const handleEdit = () => {
     setViewMode(false);
   };
   {
     viewMode ? getUser() : null;
   }
-
-
   return (
     <View style={styles.container}>
-      <Header title={"EditProfile"}type={'arrow-left'} navigation={navigation}/>
-      <BackgroundImage source={b} style={{width:"100%",height:"100%",}}>
-
       {viewMode ? (
-        <View style={{ margin: 20 }}>
+        <View style={{ margin: 0 }}>
+          <View style={{backgroundColor:"#ff8c52",display:"flex",flex:2,width:"100%",height:"50%",padding:-1,margin:-1,borderRadius:"5%",}}>
           <View style={{ alignItems: "center" }}>
             <TouchableOpacity onPress={() => {}}>
               <View
@@ -164,7 +163,10 @@ const editprofilescreen = ({ navigation }) => {
                   imageStyle={{ borderRadius: 15 }}
                 >
                   <View
-                    style={{justifyContent: "center",alignItems: "center",flex: 1,}}
+                    style={{
+                      justifyContent: "center", alignItems: "center",
+                      flex: 1,
+                    }}
                   >
                     {/* <Icon1
                       name="camera"
@@ -183,24 +185,26 @@ const editprofilescreen = ({ navigation }) => {
                 </ImageBackground>
               </View>
             </TouchableOpacity>
-            <Text style={{ marginRight: 10, fontSize: 24, fontWeight: "bold" }}>
+              </View>
+            <Text style={{ marginRight: 10, fontSize: 18, fontWeight: "bold" }}>
               {email}
-          <h3 style={{ color:"darkblue", fontWeight: "bold" }}>{auth.currentUser.email} </h3>
+
             </Text>
           </View>
+              <h2 style={{ color:"darkblue", fontWeight: "bold",marginLeft:"20%" }}>{auth.currentUser.email} </h2>
+        
           <View style={styles.action}>
-          
-         <Text  style={[ { color: colors.text,size:10 }]} >First Name  </Text>
             <FontAwesome name="user-o" color={colors.text} size={20} />
-            <Text style={[styles.textInput, { color: colors.text }]}
+            <Text
+              style={[styles.textInput, { color: colors.text }]}
 
               // onChangeText={setFirstName}
             >
               {firstName}
             </Text>
           </View>
+        
           <View style={styles.action}>
-            <Text  style={[, { color: colors.text ,size:10}]} >last Name  </Text><br/> 
             <FontAwesome name="user-o" color={colors.text} size={20} />
             <Text
               style={[styles.textInput, { color: colors.text }]}
@@ -211,23 +215,77 @@ const editprofilescreen = ({ navigation }) => {
             </Text>
           </View>
           <View style={styles.action}>
-          <Text  style={[ { color: colors.text,size:10}]} >Phone Number  </Text><br/> 
             <Feather name="smartphone" color={colors.text} size={20} />
-            <Text placeholderTextColor="#666666" style={[styles.textInput, { color: colors.text }]} // onChangeText={setPhone} 
+            <Text
+              placeholderTextColor="#666666"
+              style={[styles.textInput, { color: colors.text }]} // onChangeText={setPhone}
             >
               {phone}
             </Text>
           </View>
           <View style={styles.action}>
-          <Text  style={[ { color: colors.text,size:10 }]} >Birth Date  </Text><br/> 
             <Icon2 name="date-range" color={colors.text} size={20} />
-            <Text placeholderTextColor="#666666" style={[styles.textInput, { color: colors.text }]}
+            <Text
+              placeholderTextColor="#666666"
+              style={[styles.textInput, { color: colors.text }]}
               // onChangeText={setBirthDay}
             >
               {birthday}
             </Text>
           </View>
-          <TouchableOpacity onPress={handleEdit} style={styles.commandButton}>
+        
+          <View style={styles.infoBoxWrapper}>
+          <View style={[styles.infoBox, {
+            borderRightColor: '#dddddd',
+            borderRightWidth: 1
+          }]}>
+            <Title>₹140.50</Title>
+            <Caption>Wallet</Caption>
+          </View>
+          <View style={styles.infoBox}>
+            <Title>5</Title>
+            <Caption>Orders</Caption>
+          </View>
+      </View>
+
+
+      
+ <View style={styles.menuWrapper}>
+        <TouchableRipple onPress={()=>navigation.navigate("MyFavorites")}>
+          <View style={styles.menuItem}>
+            <Icon name="heart-outline" color="#FF6347" size={25}/>
+            <Text style={styles.menuItemText}>My Favorites</Text>
+          </View>   
+        </TouchableRipple>
+        <TouchableRipple onPress={()=>navigation.navigate("Login")}>
+          <View style={styles.menuItem}>
+            <Icon name="credit-card" color="#FF6347" size={25}/>
+            <Text style={styles.menuItemText}>Payment</Text>
+          </View>
+        </TouchableRipple>
+        <TouchableRipple 
+        // onPress={myCustomShare}
+        >
+          <View style={styles.menuItem}>
+            <Icon name="share-outline" color="#FF6347" size={25}/>
+            <Text style={styles.menuItemText}>Share</Text>
+          </View>
+        </TouchableRipple>
+        <TouchableRipple onPress={handleEdit}>
+          <View style={styles.menuItem}>
+            <Icon name="account-check-outline" color="#FF6347" size={25}/>
+            <Text style={styles.menuItemText}>Edit</Text>
+          </View>
+        </TouchableRipple>
+        <TouchableRipple onPress={handleSignOut}>
+          <View style={styles.menuItem}>
+            <Icon name="logout" color="#FF6347" size={25}/>
+            <Text style={styles.menuItemText}>Logout</Text>
+          </View>
+        </TouchableRipple>
+      </View>
+          
+          {/* <TouchableOpacity onPress={handleEdit} style={styles.commandButton}>
             <Text style={styles.panelButtonTitle}>Edit</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -235,9 +293,11 @@ const editprofilescreen = ({ navigation }) => {
             style={styles.commandButton}
           >
             <Text style={styles.panelButtonTitle}>Log Out</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       ) : (
+        <View>
+            <Header title={"Edit Profile"}type={'arrow-left'} navigation={navigation}/>
         <View style={{ margin: 20 }}>
           <View style={{ alignItems: "center" }}>
             <TouchableOpacity onPress={handleChoosePhoto}>
@@ -254,7 +314,7 @@ const editprofilescreen = ({ navigation }) => {
                   <Image source={{ uri: photo }} style={styles.photo} />
                 ) : (
                   <ImageBackground
-                    source={img1}
+                    source={OIP}
                     style={{ height: 100, width: 100 }}
                     imageStyle={{ borderRadius: 15 }}
                   >
@@ -288,80 +348,72 @@ const editprofilescreen = ({ navigation }) => {
             </Text>
           </View>
           <View style={styles.action}>
-            <FontAwesome name="user-o" color={colors.text} size={20} />
-            <TextInput
-              placeholder="First Name"
-              placeholderTextColor="#666666"
-              autoCorrect={false}
-              style={[styles.textInput, { color: colors.text }]}
+          <Input  iconName="user"placeholder="Edit First Name"
               value={firstName}
               onChangeText={setFirstName}
             />
           </View>
           <View style={styles.action}>
-            <FontAwesome name="user-o" color={colors.text} size={20} />
-            <TextInput
-              placeholder="Last Name"
-              placeholderTextColor="#666666"
-              autoCorrect={false}
-              style={[styles.textInput, { color: colors.text }]}
+          <Input  iconName="user"placeholder="Edit Last Name"
               value={lastName}
               onChangeText={setLastName}
-              
             />
           </View>
           <View style={styles.action}>
-            <Feather name="smartphone" color={colors.text} size={20} />
-            <TextInput
-              placeholder="Phone Number"
-              keyboardType="number-pad"
-              placeholderTextColor="#666666"
-              autoCorrect={false}
-              style={[styles.textInput, { color: colors.text }]}
-              value={phone}
+            <Input  iconName="mobile-alt"placeholder="Edit Phone Number"
               onChangeText={setPhone}
             />
           </View>
           <View style={styles.action}>
-            <Icon2 name="date-range" color={colors.text} size={20} />
-            <TextInput
-              placeholder="Birth Date"
-              placeholderTextColor="#666666"
-              autoCorrect={false}
-              style={[styles.textInput, { color: colors.text }]}
-              value={birthday}
-              onChangeText={setBirthDay}
-              type="datetime-local"
-            />
-            <input type="date"/>
-            <Button title="Date" onPress={()=>showMode('date')}/>
-            {show&&(
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode={mode}
-                is24Hour={true}
-                display='default'
-                onChange={onChange}
-              />
-            )}
-            {/* <input type="datetime-local">Date</input> */}
+            <Input  iconName="Date"placeholder="Edit Location"
+               onChangeText={setBirthDay} />
+             
           </View>
-          <TouchableOpacity onPress={handleSubmit} style={styles.commandButton}>
-            <Text style={styles.panelButtonTitle}>Submit</Text>
+          <TouchableOpacity onPress={handleSubmit}>
+          <View style={styles.menuItem}>
+            <Icon name="logout" color="#FF6347" size={25}/>
+            <Text style={styles.menuItemText}>Submit</Text>
+          </View>          
           </TouchableOpacity>
         </View>
+        </View>
       )}
-      /</BackgroundImage>
     </View>
   );
 };
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
+  },
+  infoBoxWrapper: {
+    borderBottomColor: '#dddddd',
+    borderBottomWidth: 1,
+    borderTopColor: '#dddddd',
+    borderTopWidth: 1,
+    flexDirection: 'row',
+    height: 100,
+    marginTop:15,
+  },
+  infoBox: {
+    width: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  menuWrapper: {
+    marginTop: 10,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+  },
+  menuItemText: {
+    color: '#777777',
+    marginLeft: 20,
+    fontWeight: '600',
+    fontSize: 16,
+    lineHeight: 26,
   },
   commandButton: {
     padding: 15,
@@ -382,7 +434,7 @@ const styles = StyleSheet.create({
     // shadowOpacity: 0.4,
   },
   header: {
-    backgroundColor: "darkblue",
+    backgroundColor: "#FFFFFF",
     shadowColor: "#333333",
     shadowOffset: { width: -1, height: -3 },
     shadowRadius: 2,
@@ -413,7 +465,7 @@ const styles = StyleSheet.create({
   },
   panelSubtitle: {
     fontSize: 14,
-    color: "darkblue",
+    color: "gray",
     height: 30,
     marginBottom: 10,
   },
@@ -434,26 +486,23 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#darkblue",
+    borderBottomColor: "gray",
+    marginHorizontal:20,
     paddingBottom: 5,
   },
   actionError: {
     flexDirection: "row",
     marginTop: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "darkblue",
+    borderBottomColor: "#FF0000",
     paddingBottom: 5,
-    fontSize:20
-
   },
   textInput: {
     flex: 1,
     // marginTop: Platform.OS === "ios" ? 0 : -12,
-    paddingLeft: 12,
-color: "darkblue",
-fontSize:22
+    paddingLeft: 15,
+color: "#05375a",
   },
 });
-
 export default editprofilescreen;
-
+// {/* <Text></Text> */}
