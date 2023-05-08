@@ -6,7 +6,10 @@ import { Colors } from '../global/styles';
 import SearchScreen from '../screens/SearchScreen';
 import MyOrderScreen from '../screens/MyOrderScreen';
 import Profile from '../screens/Profile';
+import Home from '../screens/Home';
 import Ionic from 'react-native-vector-icons/Ionicons';
+import editprofilescreen from '../src/editprofilescreen';
+import cart from '../screens/cart';
 
 export default function RootClientTab() {
   const ClientTab = createBottomTabNavigator();
@@ -16,35 +19,34 @@ export default function RootClientTab() {
         activeTintColor: Colors.buttons,
       }}
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, size, colour }) => {
+        tabBarIcon: ({ focused, size, color }) => {
           let iconName;
-          let tabBarIcon;
-          if (route.name === 'ResturantScreen') {
+          if (route.name === 'home') {
             iconName = focused ? 'ios-home' : 'ios-home-outline';
-            colour = focused ? 'orange' : 'gray';
+            color = focused ? 'orange' : 'gray';
           } else if (route.name === 'SearchScreen') {
             iconName = focused ? 'ios-search-sharp' : 'ios-search-outline';
-            colour = focused ? 'orange' : 'gray';
-          } else if (route.name === 'MyOrderScreen') {
+            color = focused ? 'orange' : 'gray';
+          } else if (route.name === 'cart') {
             iconName = focused ? 'ios-cart-sharp' : 'ios-cart-outline';
-            colour = focused ? 'orange' : 'gray';
-          } else if (route.name === 'Profile') {
-            iconName = focused ? 'ios-person-sharp' : 'ios-person-outline';
-            colour = focused ? 'orange' : 'gray';
+            color = focused ? 'orange' : 'gray';
+          } else if (route.name === 'ProfileScreen') {
+            iconName = focused ? 'ios-user' : 'ios-user-outline';
+            color = focused ? 'orange' : 'gray';
           }
           return (
             <Ionic
               name={iconName}
               size={size}
-              color={colour}
+              color={color}
             />
           );
         },
       })}
     >
       <ClientTab.Screen
-        name='ResturantScreen'
-        component={ResturantScreen}
+        name='home'
+        component={Home}
         options={{ headerShown: false }}
       />
       <ClientTab.Screen
@@ -52,12 +54,14 @@ export default function RootClientTab() {
         component={SearchScreen}
       />
       <ClientTab.Screen
-        name='MyOrderScreen'
-        component={MyOrderScreen}
+        name='cart'
+        component={cart}
+        options={{ headerShown: false }}
       />
       <ClientTab.Screen
         name='Profile'
-        component={Profile}
+        component={editprofilescreen}
+        options={{ headerShown: false }}
       />
     </ClientTab.Navigator>
 
