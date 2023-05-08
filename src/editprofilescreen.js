@@ -9,6 +9,8 @@ import {
   style,
   SafeAreaView,
   TouchableOpacity,
+  Share,
+  Platform
 } from "react-native";
 import {
   Avatar,
@@ -36,6 +38,8 @@ import Header from "./views/components/Header";
 import Input from './views/components/Input';
 import {storage} from '../firebase';
 import{ref,uploadBytes,getDownloadURL} from "firebase/storage"
+import { title } from "./global/styles";
+import { Alert } from "react-native";
 
 
 // import files from '../assets/filesBase64';
@@ -45,6 +49,7 @@ import{ref,uploadBytes,getDownloadURL} from "firebase/storage"
 // import { fontConfig } from "react-native-paper/lib/typescript/src/styles/fonts";
 
 const editprofilescreen = ({ navigation }) => {
+  
   const [fullname, setfullname] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -55,20 +60,63 @@ const editprofilescreen = ({ navigation }) => {
   const { colors } = useTheme();
   const [url,setUrl]=useState(null);
 
-  // const myCustomShare = async() => {
+  
+    const onShare = async () => {
+      try {
+        const result = await Share.share({
+          message:
+            'React Native | A framework for building native apps using React',
+        });
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            // shared with activity type of result.activityType
+          } else {
+            // shared
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // dismissed
+        }
+      } catch (error) {
+        Alert.alert(error.message);
+      }
+    };
+  
+
+  // const onShare = async() => {
   //   const shareOptions = {
   //     message: 'Order your next meal from FoodFinder App. I\'ve already ordered more than 10 meals on it.',
-  //     url: files.appLogo,
+  //     // url: files.appLogo,
   //     // urls: [files.image1, files.image2]
   //   }
 
   //   try {
   //     const ShareResponse = await Share.open(shareOptions);
-  //     console.log(JSON.stringify(ShareResponse));
+  //     // console.log(JSON.stringify(ShareResponse));
   //   } catch(error) {
   //     console.log('Error => ', error);
   //   }
   // };
+
+  // const onShare=({ navigation })=>{
+  //   let text="Hello , I invite you to use Just Eit app  ";
+  //   if(Platform.OS==='windows')
+  //   text=text.concat("https://www.google.com.eg/")
+  //   // else
+  //   //   if(Platform.OS==='android');{
+  //   //   text=text.concat("http://localhost:19006/")
+  //   //   }else if(Platform.OS==='ios');
+  //   else 
+  //   text=text.concat("https://www.google.com.eg/");
+  //   Share.share({
+  //     subect:'Just Eit',
+  //     title:'Just Eit',
+  //     message:text,
+  //     url:'app://Just Eit'
+  //   },{
+  //     dialogTitle:"please Like and Share <3 ",
+  //     excludedActivityTypes:[]
+  //   })
+  // }
 
   const handleSignOut = () => {
     signOut(auth)
@@ -180,7 +228,7 @@ const editprofilescreen = ({ navigation }) => {
                 style={{
                   height: 100,
                   width: 100,
-                  borderRadius: 15,
+                  borderRadius: 50,
                   justifyContent: "center",
                   alignItems: "center",
                 }}
@@ -212,17 +260,36 @@ const editprofilescreen = ({ navigation }) => {
                   </View>
                 </ImageBackground>
               </View>
+              <Text style={{ fontSize: 18, fontWeight: "bold",color:"white" }}>
+              {email}
+            </Text>
             </TouchableOpacity>
               </View>
-            <Text style={{ marginRight: 10, fontSize: 18, fontWeight: "bold" ,color:"white"}}>
-              {email}
+            {/* <Text style={{  fontSize: 20, fontWeight: "bold" ,color:"white"}}> */}
+              {/* {email} */}
 
-            </Text>
+            {/* </Text> */}
           </View>
               {/* <h2 style={{ color:"darkblue", fontWeight: "bold",marginLeft:"20%" }}>{auth.currentUser.email} </h2> */}
         
-          <View style={styles.action}>
-            <FontAwesome name="user-o" color={colors.text} size={20} />
+          {/* <View style={styles.action}>
+            <FontAwesome name="user-o" color={colors.text} size={23} />
+            <Text
+              style={[styles.textInput, { color: colors.text }]}
+
+              // onChangeText={setFirstName}
+            >
+              {email}
+            </Text>
+          </View> */}
+          {/* <Text style={{  justifyContent: "center",
+                        alignItems: "center",
+                        flex: 1, fontSize: 18, fontWeight: "bold" }}>
+              {email}
+            </Text> */}
+          <View style={styles.action} >
+          <Text  style={[ { color: colors.text,size:10 }]} >FName  </Text>
+            <FontAwesome name="user-o" color={colors.text} size={20}  />
             <Text
               style={[styles.textInput, { color: colors.text }]}
 
@@ -233,6 +300,7 @@ const editprofilescreen = ({ navigation }) => {
           </View>
         
           <View style={styles.action}>
+          <Text  style={[ { color: colors.text,size:10 }]} >LName  </Text>
             <FontAwesome name="user-o" color={colors.text} size={20} />
             <Text
               style={[styles.textInput, { color: colors.text }]}
@@ -243,6 +311,7 @@ const editprofilescreen = ({ navigation }) => {
             </Text>
           </View>
           <View style={styles.action}>
+          <Text  style={[ { color: colors.text,size:10 }]} >Number  </Text>
             <Feather name="smartphone" color={colors.text} size={20} />
             <Text
               placeholderTextColor="#666666"
@@ -252,6 +321,8 @@ const editprofilescreen = ({ navigation }) => {
             </Text>
           </View>
           <View style={styles.action}>
+          <Text  style={[ { color: colors.text,size:10 }]} >Birthday </Text>
+
             <Icon2 name="date-range" color={colors.text} size={20} />
             <Text
               placeholderTextColor="#666666"
@@ -292,7 +363,7 @@ const editprofilescreen = ({ navigation }) => {
           </View>
         </TouchableRipple>
         <TouchableRipple 
-        // onPress={myCustomShare}
+        onPress={onShare}
         >
           <View style={styles.menuItem}>
             <Icon name="share-outline" color="#FF6347" size={25}/>
@@ -514,7 +585,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "gray",
+    borderBottomColor: "#dddddd",
     marginHorizontal:20,
     paddingBottom: 5,
   },
