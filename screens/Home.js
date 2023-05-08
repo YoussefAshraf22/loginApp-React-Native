@@ -3,22 +3,16 @@ import {
   View,
   Text,
   ScrollView,
-  StatusBar,
   Image,
   TouchableOpacity,
-  TextInput,
   FlatList,
   Dimensions,
 } from 'react-native';
-import { Categories, COLOURS, featured } from '../database/items';
-import Material from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Categories, COLOURS } from '../database/items';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ResturantHeader from '../components/ResturantHeader';
-import { filterData, resturantData, resturantData1 } from '../global/data';
-import FoodCard from './FoodCard';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const Home = ({ navigation }) => {
@@ -151,7 +145,7 @@ const Home = ({ navigation }) => {
                   color: COLOURS.black,
                   opacity: 0.8,
                   marginLeft: 5,
-                  marginBottom:5,
+                  marginBottom: 5,
                 }}
               >
                 top of the week
@@ -223,7 +217,7 @@ const Home = ({ navigation }) => {
             >
               <AntDesign
                 name='star'
-                style={{ fontSize: 12, color: COLOURS.black, paddingRight: 5 }}
+                style={{ fontSize: 15, color: COLOURS.black, paddingRight: 5 }}
               />
               <Text
                 style={{
@@ -300,51 +294,7 @@ const Home = ({ navigation }) => {
           >
             Popular Items
           </Text>
-          {/* <ScrollView>
-            <View style={{ width: SCREEN_WIDTH, paddingTop: 10 }}>
-              {resturantData.map((item) => (
-                <View
-                  key={item.id}
-                  style={{ paddingBottom: 20 }}
-                >
-                  <FoodCard
-                    screenWidth={SCREEN_WIDTH * 0.95}
-                    images={item.images}
-                    resturantName={item.resturantName}
-                    farAway={item.farAway}
-                    averageReview={item.averageReview}
-                    numberofReview={item.numberofReview}
-                    businessAddress={item.businessAddress}
-                  />
-                  
-                </View>
-              ))}
-            </View>
-          </ScrollView> */}
-
           {Categories[currentSelected].items.map(renderItems)}
-          {/* {featured[currentSelected].items.map(renderItems)} */}
-
-          {/* <TouchableOpacity
-            style={{
-              margin: 30,
-              justifyContent: 'center',
-              alignItems: 'center',
-              opacity: 0.5,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 16,
-                color: COLOURS.black,
-                borderBottomWidth: 1,
-                borderBottomColor: COLOURS.black,
-              }}
-            >
-              Load more
-            </Text>
-            
-          </TouchableOpacity> */}
         </View>
       </ScrollView>
     </View>
