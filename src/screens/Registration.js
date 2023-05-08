@@ -5,14 +5,21 @@ import z from "../images/z.png"
 import React, { useState } from 'react';
 import Button from '../views/components/Button';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import  auth  from '../../firebase';
+import  {auth ,db} from '../../firebase';
 import { Colors } from '../global/styles';
 import Header from '../views/components/Header';
 import { BackgroundImage } from '@rneui/base';
 
+import {doc,setDoc} from "../../firebase"
+
 const Registration =({navigation})=>{
    const [email,setEmail]=useState('');
    const [password,setPassword]=useState('');
+   const [name,setName]=useState('');
+   const [phone,setPhone]=useState('');
+   const [lastName,setLastName]=useState('');
+   const [birthday,setBirthDay]=useState('');
+   const [photo,setP]=useState('');
    
    const handelSignUp=()=>{
     createUserWithEmailAndPassword(auth, email, password)
@@ -25,6 +32,7 @@ const Registration =({navigation})=>{
 
     const user = userCredential.user;
     // ...
+    addUserToDatabase();
 })
 .catch((error) => {
     const errorCode = error.code;
@@ -89,6 +97,17 @@ const Registration =({navigation})=>{
         setErrors((prevState)=>({...prevState,[input]:text}));
     }
 
+
+    const addUserToDatabase=async()=>{
+        await setDoc(doc(db,"users",auth.currentUser.uid),{
+            name: inputs.fullname,
+            lastName:lastName,
+            email: email,
+            phone: inputs.phone,
+            birthday:birthday,
+        });
+      };
+
     return(
         <SafeAreaView style={style.container}>
              <BackgroundImage source={z} style={{width:"100%",height:"100%",}}>
@@ -101,7 +120,7 @@ const Registration =({navigation})=>{
             <Text style={style.text1}>Enter Your Details To Register</Text>
             <Input  iconName="user"placeholder="Enter Your Full Name"
             onChangeText={(text)=>handelOnChange(text,"fullname")}onFocus={()=>handelError(null,"fullname")} error={errors.fullname}/>
-            <Input  iconName="mobile-alt"placeholder="Enter Your Number"
+            <Input  iconName="mobile-alt"placeholder="Enter Your Number" 
             onChangeText={(text)=>handelOnChange(text,"phone")}onFocus={()=>handelError(null,"phone")} error={errors.phone}/>
             <Input  iconName="envelope"placeholder="Enter Your E_mail" value={email}
             onChangeText={setEmail}onFocus={()=>handelError(null,"email")} error={errors.email} />

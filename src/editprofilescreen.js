@@ -43,7 +43,7 @@ import Input from './views/components/Input';
 // import { fontConfig } from "react-native-paper/lib/typescript/src/styles/fonts";
 
 const editprofilescreen = ({ navigation }) => {
-  const [firstName, setFirstName] = useState("");
+  const [fullname, setfullname] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -105,31 +105,32 @@ const editprofilescreen = ({ navigation }) => {
     // navigation.navigate("EditProfileScreen");
   };
   const handleUpdate = async () => {
-    const washingtonRef = doc(db, "usersData", auth.currentUser.uid);
+    const washingtonRef = doc(db, "users", auth.currentUser.uid);
 
     // Set the "capital" field of the city 'DC'
     await updateDoc(washingtonRef, {
-      firstName: firstName,
+      name: fullname,
       lastName: lastName,
       phone: phone,
       birthday: birthday,
       photo: photo,
     });
   };
+
   const getUser = async () => {
-    const docRef = doc(db, "usersData", auth.currentUser.uid);
+    const docRef = doc(db, "users", auth.currentUser.uid);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       // console.log("Document data:", docSnap.data());
       const data = docSnap.data();
       setEmail(data.email);
-      setFirstName(data.firstName);
+      setfullname(data.name);
       setLastName(data.lastName);
       setPhone(data.phone);
-      setPhoto(data.photo);
+      // setPhoto(data.photo);
       setBirthDay(data.birthday);
-      setPhoto(data.photo);
+      // setPhoto(data.photo);
     } else {
       // docSnap.data() will be undefined in this case
       console.log("No such document!");
@@ -138,6 +139,7 @@ const editprofilescreen = ({ navigation }) => {
   const handleEdit = () => {
     setViewMode(false);
   };
+
   {
     viewMode ? getUser() : null;
   }
@@ -186,12 +188,12 @@ const editprofilescreen = ({ navigation }) => {
               </View>
             </TouchableOpacity>
               </View>
-            <Text style={{ marginRight: 10, fontSize: 18, fontWeight: "bold" }}>
+            <Text style={{ marginRight: 10, fontSize: 18, fontWeight: "bold" ,color:"white"}}>
               {email}
 
             </Text>
           </View>
-              <h2 style={{ color:"darkblue", fontWeight: "bold",marginLeft:"20%" }}>{auth.currentUser.email} </h2>
+              {/* <h2 style={{ color:"darkblue", fontWeight: "bold",marginLeft:"20%" }}>{auth.currentUser.email} </h2> */}
         
           <View style={styles.action}>
             <FontAwesome name="user-o" color={colors.text} size={20} />
@@ -200,7 +202,7 @@ const editprofilescreen = ({ navigation }) => {
 
               // onChangeText={setFirstName}
             >
-              {firstName}
+              {fullname}
             </Text>
           </View>
         
@@ -349,8 +351,8 @@ const editprofilescreen = ({ navigation }) => {
           </View>
           <View style={styles.action}>
           <Input  iconName="user"placeholder="Edit First Name"
-              value={firstName}
-              onChangeText={setFirstName}
+              value={fullname}
+              onChangeText={setfullname}
             />
           </View>
           <View style={styles.action}>
