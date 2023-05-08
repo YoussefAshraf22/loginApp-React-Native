@@ -34,6 +34,8 @@ import OIP from "./images/OIP.jpg";
 import * as ImagePicker from "expo-image-picker";
 import Header from "./views/components/Header";
 import Input from './views/components/Input';
+import {storage} from '../firebase';
+import{ref,uploadBytes,getDownloadURL} from "firebase/storage"
 
 
 // import files from '../assets/filesBase64';
@@ -51,6 +53,7 @@ const editprofilescreen = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
   const [viewMode, setViewMode] = useState(true);
   const { colors } = useTheme();
+  const [url,setUrl]=useState(null);
 
   // const myCustomShare = async() => {
   //   const shareOptions = {
@@ -83,6 +86,13 @@ const editprofilescreen = ({ navigation }) => {
         // An error happened.
       });
   };
+
+// const handlePhotoChange=(e)=>{
+//   if(e.target.files[0]){
+//     setPhoto(e.target.files[0]);
+//   }
+// }
+
   const handleChoosePhoto = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -99,6 +109,7 @@ const editprofilescreen = ({ navigation }) => {
       setPhoto(result.uri);
     }
   };
+
   const handleSubmit = () => {
     setViewMode(true);
     handleUpdate();
@@ -115,6 +126,22 @@ const editprofilescreen = ({ navigation }) => {
       birthday: birthday,
       photo: photo,
     });
+
+    const imageRef=ref(storage,"photo");
+    uploadBytes(imageRef,photo)
+    .then(()=>{
+      getDownloadURL(imageRef)
+      .then((uri)=> {
+        setUrl(uri);
+      })
+      .catch((error)=>{
+        console.log(error.massage,"error getting the image url");
+      });
+      setPhoto(null)
+    })
+    .catch((error)=>{
+      console.log(error.massage);
+    })
   };
 
   const getUser = async () => {
@@ -128,9 +155,8 @@ const editprofilescreen = ({ navigation }) => {
       setfullname(data.name);
       setLastName(data.lastName);
       setPhone(data.phone);
-      // setPhoto(data.photo);
+      setPhoto(data.photo);
       setBirthDay(data.birthday);
-      // setPhoto(data.photo);
     } else {
       // docSnap.data() will be undefined in this case
       console.log("No such document!");

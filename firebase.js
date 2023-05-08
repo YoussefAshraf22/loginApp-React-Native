@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, getAuth,signInWithPopup,FacebookAuthProvider } from "firebase/auth";
 import { getFirestore ,collection, addDoc ,getDocs  ,doc, updateDoc ,deleteDoc,setDoc} from "firebase/firestore";
+import {getStorage}from "firebase/storage";
  
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -26,6 +27,7 @@ export const provider=new GoogleAuthProvider(app);
 export const provider2=new FacebookAuthProvider(app);
 const db = getFirestore(app);
 export {app,db,getFirestore ,collection, setDoc ,addDoc ,getDocs ,doc, updateDoc ,deleteDoc};
+export const storage=getStorage(app);
 
 const user = auth.currentUser;
 if (user !== null) {
@@ -36,6 +38,8 @@ if (user !== null) {
   const emailVerified = user.emailVerified;
   const uid = user.uid;
 }
+
+
 
 // export const signInWithGoogle=()=>{
 //   signInWithPopup (auth,provider)

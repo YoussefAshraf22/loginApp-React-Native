@@ -19,7 +19,6 @@ const Registration =({navigation})=>{
    const [phone,setPhone]=useState('');
    const [lastName,setLastName]=useState('');
    const [birthday,setBirthDay]=useState('');
-   const [photo,setP]=useState('');
    
    const handelSignUp=()=>{
     createUserWithEmailAndPassword(auth, email, password)
@@ -95,16 +94,17 @@ const Registration =({navigation})=>{
     }
     const handelError=(text,input)=>{
         setErrors((prevState)=>({...prevState,[input]:text}));
-    }
+    }  
 
 
     const addUserToDatabase=async()=>{
         await setDoc(doc(db,"users",auth.currentUser.uid),{
-            name: inputs.fullname,
+            name: name,
             lastName:lastName,
             email: email,
             phone: inputs.phone,
             birthday:birthday,
+            photo:phone
         });
       };
 
