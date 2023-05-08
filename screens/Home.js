@@ -49,8 +49,8 @@ const Home = ({ navigation }) => {
             <Image
               source={item.image}
               style={{
-                width: '100%',
-                height: '100%',
+                width: '120%',
+                height: '110%',
                 resizeMode: 'center',
               }}
             />
@@ -58,7 +58,7 @@ const Home = ({ navigation }) => {
           {/* catigory title  */}
           <Text
             style={{
-              fontSize: 16,
+              fontSize: 17,
               color: COLOURS.black,
               fontWeight: '600',
             }}
