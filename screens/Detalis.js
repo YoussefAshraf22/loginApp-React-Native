@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { COLOURS } from '../database/items';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
@@ -6,6 +6,11 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 const Details = ({ route, navigation }) => {
+  const [isLit, setIsLit] = useState(false);
+  const toggleLight = () => {
+    setIsLit(!isLit);
+  };
+
   const {
     name,
     price,
@@ -56,19 +61,24 @@ const Details = ({ route, navigation }) => {
         </TouchableOpacity>
         <View
           style={{
-            width: 40,
-            height: 40,
+            width: 50,
+            height: 50,
             borderRadius: 10,
             backgroundColor: COLOURS.accent,
-            opacity: isTopOfTheWeek ? 1 : 0.5,
+            //opacity: isTopOfTheWeek ? 1 : 0.5,
             justifyContent: 'center',
             alignItems: 'center',
           }}
         >
-          <AntDesign
-            name='star'
-            style={{ fontSize: 15, color: COLOURS.white }}
-          />
+          <TouchableOpacity onPress={toggleLight}>
+            <AntDesign
+              name='star'
+              style={{ fontSize: 20, color: isLit ? 'white' : 'gray' }}
+            />
+          </TouchableOpacity>
+          <Text style={{ color: 'black', fontWeight: 'bold' }}>
+            {isLit ? 'Added' : ''}
+          </Text>
         </View>
       </View>
       <Text
